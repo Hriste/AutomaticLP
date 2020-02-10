@@ -15,7 +15,7 @@ from datetime import datetime
 import csv
 from operator import itemgetter
 
-OUTPUT_SHAPE = (128*4, 128*4)#64*4)
+OUTPUT_SHAPE = (128*4, 64*4)
 FONT_HEIGHT = 32*4
 
 data_dict = {}

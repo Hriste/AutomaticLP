@@ -15,7 +15,7 @@ lgraph = layerGraph(net);
 % Input Size - this is specific to my network !
 % TODO: switch back to 2:1, I thougth this might fix a matlab error - did
 % not
-imageInputSize = [512, 512, 3];
+imageInputSize = [512, 256, 3];
 
 % Create a new input image layer
 % Set the name to the original layer name
@@ -49,7 +49,7 @@ filterSize = [3,3];
 
 % Set the number of filters in the convolution layers to match the number
 % of channels in the feature extrraction layer output
-numFilters = 24%48; 
+numFilters = 74%148; 
 
 % Create the detection subnetwork
 % the convolution layer uses the same "padding" to preserve the input size
@@ -68,7 +68,7 @@ detectionLayers = [
 ];
 
 % define the number of classes to detect
-numClasses = 1%7;
+numClasses = 32%32;
 
 % define the anchor boxes
 anchorBoxes = load('formattedData.mat').anchorBoxes;
