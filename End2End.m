@@ -16,10 +16,19 @@ doTraining = true;
 if(doConversion)
     [trainingData, anchorBoxes] = Conversion(TrainingPath);
     [testData, ~] = Conversion(TestPath); 
+    save('dataset.mat', 'trainingData', 'testData', 'anchorBoxes');
+else
+    trainingData = load('dataset.mat').trainingData;
+    testData = load('dataset.mat').testData;
+    anchorBoxes = load('dataset.mat').anchorBoxes;
 end
+
 
 if(makeNetwork)
     [network] = NetworkMaker(anchorBoxes);
+    save('network.mat', 'network');
+else
+    network = load('network.mat').network;
 end
 
 if(doTraining)
@@ -31,6 +40,10 @@ if(doTraining)
     grid on
     xlabel('Number of Iterations')
     ylabel('Training Loss for Each Iteration')
+    
+    save('training.mat', 'detector', 'info');
+else
+    detector = load('training.mat').detector;
 end
 % TODO: else load pretrained detector
 
@@ -41,11 +54,11 @@ expectedResults = testData.UnderlyingDatastores{1,2};
 % Generate Plot of results
 % I don't have any results so it fails here for me
 figure
-plot(recall, precision )
+plot([recall{:}], [precision{:}])
 xlabel('Recall')
 ylabel('Percision')
 grid on
-title(sprintf('Average Precision = %.2f',ap))
+%title(sprintf('Average Precision = %.2f',ap))
 
 
 % Evaluate Results
