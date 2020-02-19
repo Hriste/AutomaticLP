@@ -9,8 +9,8 @@
 TrainingPath = "GeneratedImages_2020-02-10_20-16";
 TestPath = "GeneratedImages_2020-02-10_20-16";
 doConversion = true; 
-makeNetwork = true;
-doTraining = true; 
+makeNetwork = false;
+doTraining = false; 
 
 % TODO: figure out scheme of saving between sessions in a programatic way
 if(doConversion)
