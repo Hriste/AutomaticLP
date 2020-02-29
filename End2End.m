@@ -6,8 +6,8 @@
 
 % TODO: make path and "new" conversion / "new" network scripted rather than
 % manually modified
-TrainingPath = "GeneratedImages_2020-02-10_20-16";
-TestPath = "GeneratedImages_2020-02-10_20-16";
+TrainingPath = "GeneratedImages_2020-02-21_10-41";
+TestPath = "GeneratedImages_2020-02-21_10-41";
 doConversion = true; 
 makeNetwork = false;
 doTraining = false; 
