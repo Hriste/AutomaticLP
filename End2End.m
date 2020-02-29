@@ -10,7 +10,7 @@ TrainingPath = "GeneratedImages_2020-02-21_10-41";
 TestPath = "GeneratedImages_2020-02-21_10-41";
 doConversion = true; 
 makeNetwork = false;
-doTraining = false; 
+doTraining = true; 
 
 % TODO: figure out scheme of saving between sessions in a programatic way
 if(doConversion)
@@ -91,9 +91,10 @@ end
 % Trains Detector
 function [detector, info] = TrainDetector(trainingData, network)
     options = trainingOptions('sgdm', ...
-        'MiniBatchSize', 5, ....
+        'MiniBatchSize', 8, ....
         'InitialLearnRate',1e-3, ...
-        'MaxEpochs',20);
+        'MaxEpochs',20,...
+	'ExecutionEnvironment','gpu');
     [detector,info] = trainYOLOv2ObjectDetector(trainingData,network,options);
 end
 
@@ -184,22 +185,24 @@ function [network] = NetworkMaker(anchorBoxes)
 end
 
 % Takes in path to csv and spits out ground truth datastore & anchor boxes
-function [dsnew, anchorBoxes] = Conversion(path)
+function [dsnew, anchorBoxes] = Conversion(apath)
     % Assummes Data has been generated with Python LPImageGenerator tool
     % path to generated data is passed in
 
     % Read in rawdata
-    rawData = readtable(fullfile(pwd, path, 'dataset.csv'));
+    fullfile(pwd, apath, 'dataset.csv')
+    rawData = readtable(fullfile(pwd, apath, 'dataset.csv'));
 
     % Sort alphabetically to match file order
     rawData = sortrows(rawData);
 
     % Create an imagedatastore
-    imds = imageDatastore(fullfile(pwd, path),...
+    imds = imageDatastore(fullfile(pwd, apath),...
         'IncludeSubfolders', true, 'FileExtensions', '.png');
 
     % Create a Box Label Datastore
-    numRows = height(rawData);
+    size(rawData)
+    numRows = height(rawData)
     varNames = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',...
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'};
     varTypes = {'cell', 'cell', 'cell', 'cell', 'cell', 'cell', 'cell', 'cell', 'cell', 'cell', 'cell', 'cell',...
@@ -227,7 +230,7 @@ function [dsnew, anchorBoxes] = Conversion(path)
         newTable(i, letters(7)) = {row};
         
     end
-    
+    size(newTable); 
     blds = boxLabelDatastore(newTable);
     
     % While we have the data in tabular form determine training data driven
@@ -237,5 +240,4 @@ function [dsnew, anchorBoxes] = Conversion(path)
     
     % merge the 2 datastores
     dsnew = combine(imds, blds);
-
 end
