@@ -38,10 +38,11 @@ def makeSequences(numOfPlates, directoryName):
     print(directoryName)
     with open(directoryName+"/dataset.csv", 'w', newline='') as data_file:
         # use the below for matlab csv output
-        '''data = ["LP", "x1", "y1", "w1", "h1"]'''
+        #data = ["LP", "x1", "y1", "w1", "h1"]
 
         # Use the below for tensorflow / python
-        data = ["FileName", "Class", "X", "Y", "W", "H"]
+        #data = ["FileName", "Class", "X", "Y", "W", "H"]
+        data = ["FileName", "Class", "Xmin", "Ymin", "Xmax", "Ymax" ]
 
         for entry in data:
             data_file.write(str(entry)+",")
@@ -111,7 +112,7 @@ def makeSequences(numOfPlates, directoryName):
             data_file.write("\n")'''
 
             # Use this for the  tensorflow / python approach
-            filename = sequence+".png"
+            '''filename = sequence+".png"
             data = [[filename, sequence[0],xloc, yloc, font.getsize(str(num1))[0], font.getsize(str(num1))[1]],
                     [filename, alpha2num(sequence[1]),xloc2, yloc, font.getsize(a1)[0], font.getsize(a1)[1]],
                     [filename, alpha2num(sequence[2]),xloc3, yloc, font.getsize(a2)[0], font.getsize(a2)[1]],
@@ -122,8 +123,21 @@ def makeSequences(numOfPlates, directoryName):
             for entry in data:
                 for thing in entry:
                     data_file.write(str(thing)+",")
-                data_file.write("\n")
+                data_file.write("\n")'''
             #data_file.write("\n")
+
+            # Use this for new tensorflow dataset
+            filename = sequence+".png"
+            data = [filename, sequence[0], xloc, yloc, xloc+font.getsize(str(num1))[0], yloc+font.getsize(str(num1))[1],
+                    alpha2num(sequence[1]), xloc2, yloc, xloc2+font.getsize(a1)[0], yloc+font.getsize(a1)[1],
+                    alpha2num(sequence[2]), xloc3, yloc, xloc3+font.getsize(a2)[0], yloc+font.getsize(a2)[1],
+                    sequence[3], xloc4, yloc, xloc4+font.getsize(str(num2))[0], yloc+font.getsize(str(num2))[1],
+                    sequence[4], xloc5, yloc, xloc5+font.getsize(str(num3))[0], yloc+font.getsize(str(num3))[1],
+                    sequence[5], xloc6, yloc, xloc6+font.getsize(str(num4))[0], yloc+font.getsize(str(num4))[1],
+                    sequence[6], xloc7, yloc, xloc7+font.getsize(str(num5))[0], yloc+font.getsize(str(num5))[1]]
+            for entry in data:
+                data_file.write(str(entry)+",")
+            data_file.write("\n")
 
 def alpha2num(letter):
     # convert a letter class to a number (numbers are 0 - 9, so letters are 10 - 32)
