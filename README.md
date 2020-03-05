@@ -30,3 +30,12 @@ TestSet - folder containing test images for older Keras implmentation (To be dep
   
 5. launch tensorboard (*tensorboard --logdir=../FromScratch/models/model/*)
   * COMING SOON: I'm working on how to get specific info / better feedback into this 
+
+## Refrences
+Training Procedure based on [THIS](https://github.com/tensorflow/models/blob/fae6ca34c3d7aab1aff0588bab6bd467e51ef13b/research/object_detection/g3doc/running_locally.md)
+
+Legacy Training (train.py) based on [THIS](https://pythonprogramming.net/testing-custom-object-detector-tensorflow-object-detection-api-tutorial/?completed=/training-custom-objects-tensorflow-object-detection-api-tutorial/)
+and [THIS](https://towardsdatascience.com/creating-your-own-object-detector-ad69dda69c85)
+
+[Exporting Models](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/exporting_models.md)
+
