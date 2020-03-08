@@ -101,6 +101,21 @@ My evaluation output directory is *object_detection/eval_output*
 Use tensorboard to view the results of the evaluation 
 
     tensorboard --logdir=<path to evaluation output directory>
+    
+#### Tensorboard Outputs
+
+##### Scalars
+Scalar graphs available include: 
+- Learning Rate
+- mAP (mean average percision). 
+    - mAP is a value between 0-100, typically the higher is better
+    - Each bounding box in an image is associated with a score. Based on this score precision-recall (PR curve) is computed by varying the score threshold. The average percision (AP) is the area under the PR curve. The AP is computed for each class and then averaged resulting in the mAP. 
+    - A detection is a true positive if it has an 'intersection pver union' (IoU) with a ground truth box greater than some threshold (mAP@0.5 - the 0.5 refers to the threshold value)
+
+##### Images
+
+![Sample output](tensorboardWorking.png)
+(note very little training was done for this but I wanted to put a sample here)
 
 ## Refrences
 Training Procedure based on [THIS](https://github.com/tensorflow/models/blob/fae6ca34c3d7aab1aff0588bab6bd467e51ef13b/research/object_detection/g3doc/running_locally.md)
@@ -111,3 +126,7 @@ and [THIS](https://towardsdatascience.com/creating-your-own-object-detector-ad69
 [Exporting Models](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/exporting_models.md)
 
 [Installation Instructions](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md)
+
+[Tutorial 1] (https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/training.html#monitor-training-job-progress-using-tensorboard)
+
+[Tutorial 2](https://becominghuman.ai/tensorflow-object-detection-api-tutorial-training-and-evaluating-custom-object-detector-ed2594afcf73)
