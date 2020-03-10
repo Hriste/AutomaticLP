@@ -43,6 +43,7 @@ TestSet - folder containing test images for older Keras implmentation (To be dep
 export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
 ```
 (you need to do this for every terminal instance you run the notebook out of - once you've cloned the tensorflow object detection repository you can run this before launching the notebook)
+
 7. go back to the top directory of this git repository and launch the juypter noteboook Full_Implementaion.ipynb again
 *NOTE: there is a part you have to change for MAC implementation*
 8. Evaluation isn't baked in (yet) so to run evaluation follow the instructions below
