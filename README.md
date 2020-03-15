@@ -14,18 +14,47 @@ TestSet - folder containing test images for older Keras implmentation (To be dep
 
 ## To Do
 - [ ] Better Instalation instructions, I'm not describing the protobuf install properly (& I'm not sure I fully understand)
-- [ ] Figure out a better way to feed diffrent generated datasets to tools that currently need hard coded paths
+- [X] Figure out a better way to feed diffrent generated datasets to tools that currently need hard coded paths
 - [ ] Add details about configuration file fields to modify
 - [ ] Make a outline / list of configuration file fields to / can be modify as part of the tuning process
 - [ ] Make a custom config file for this project
 - [ ] Modify TF Record generator to accept 0 class (tensorflow dosen't like 0 being a class index)
 - [ ] Determine how to automatically terminate training when a sufficient loss level is reached (or figure out a better way to terminate training which running on a remote host)
-- [ ] include screenshots in directions of how to use (especially reading the tensorboard section)
+- [ ] Include screenshots in directions of how to use (especially reading the tensorboard section)
 - [ ] Run on MARCC
-- [ ] Streamline process (figure out how to put this all in a jupyter notebook)
+- [X] Streamline process (figure out how to put this all in a jupyter notebook)
 - [ ] Clean up git repository
+- [ ] Make GPU version (tensorflow-gpu)
 
-## How to run
+## Monday Night Updates
+*General instructions need to be updated - don't follow*
+- **NEW** Full_Implementation.ipynb
+- Instead of having a copy of the tensorflow object detection folder the notebook clones the repository
+- Config file updated for very short training time period to prove concept without long wait times
+### TO RUN 
+1. Navigate to top level directory of this repository 
+2. Launch the jupyter notebook Full_Implementation.ipynb
+3. Run the notebook to the point where it clones the tensorflow object detection project
+4. Close notebook and server
+5. In the terminal used to launch the notebook navigate to models/research
+6. Run the command export 
+``` bash
+# From tensorflow/models/research/
+export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
+```
+(you need to do this for every terminal instance you run the notebook out of - once you've cloned the tensorflow object detection repository you can run this before launching the notebook)
+
+7. go back to the top directory of this git repository and launch the juypter noteboook Full_Implementaion.ipynb again
+*NOTE: there is a part you have to change for MAC implementation*
+8. Evaluation isn't baked in (yet) so to run evaluation follow the instructions below
+
+### TODO
+- [ ] Move TF Record code into a python module and include in notebook
+- [ ] Split up notebooks so this can be run as pieces (Setup, Generate & Convert Datasets, Train, Eval)
+- [ ] Find a better PYTHONPATH solution (possibly just add to bashrc file on all machines)
+
+_______________________________________________________________________________________
+## How to run - Deprecated (mostly)
 
 ![Diagram](Diagram.png)
 
