@@ -1,13 +1,16 @@
 #!/bin/bash
 #SBATCH -N 1
 #SBAtCH -n 6
-#SBATCH -p gpu
+#SBATCH -p gpuk80
+#SBATCH --gres=gpu:1
 #SBATCH -o tensorflow-%j.out
 #SBATCH -t 0:30:0
 
-module load cuda
-module load singularity
-module load tensorflow/1.10.1-gpu
+module restore
+module load cuda/9.0
+module load anaconda
+
+conda activate tensorflow
 
 cd models/research
 FILE=protobuf.zip
@@ -25,10 +28,10 @@ python ScriptForBashFile.py
 
 mkdir -p trainingOutput
 cd models/research
-python object_detection/legacy/train.py --logtostderr --train_dir=../../trainingOutput/ --pipeline_config_path=../../FromScratch/models/model/ssd_mobilenet_v1_coco.config
+source activate tensorflow && python object_detection/legacy/train.py --logtostderr --train_dir=../../trainingOutput/ --pipeline_config_path=../../FromScratch/models/model/ssd_mobilenet_v1_coco.config
 cd ../..
 
 mkdir -p evalOutput
 cd models/research
-python object_detection/legacy/eval.py --logtostderr --pipeline_config_path=../../FromScratch/models/model/ssd_mobilenet_v1_coco.config --checkpoint_dir=../../trainingOutput/ --eval_dir=../../evalOutput
+source activate tensorflow && python object_detection/legacy/eval.py --logtostderr --pipeline_config_path=../../FromScratch/models/model/ssd_mobilenet_v1_coco.config --checkpoint_dir=../../trainingOutput/ --eval_dir=../../evalOutput
 cd ../..

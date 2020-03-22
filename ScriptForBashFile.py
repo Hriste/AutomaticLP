@@ -17,14 +17,7 @@ PATH_TO_LABELS = './data/label_map.pbtxt'
 GENERATE DATASETS
 '''
 ## we need a training set and a test dataset
-totalNumOfSamples = input("Enter the total number of samples (60% is training, 40% is testing): ")
-while 1:
-    if not totalNumOfSamples.isnumeric():
-        print("Please enter a numberic value \n")
-    elif int(totalNumOfSamples) <=0:
-        print("Please enter a value greater than 0 \n")
-    else:
-        break
+totalNumOfSamples = 100#input("Enter the total number of samples (60% is training, 40% is testing): ")
 trainDirectoryName = datetime.now().strftime("TrainingImages_%Y-%m-%d_%H-%M")
 testDirectoryName = datetime.now().strftime("TestImages_%Y-%m-%d_%H-%M")
 numTrainImages = int(floor(int(totalNumOfSamples)*.6))
