@@ -12,7 +12,7 @@ from object_detection.utils import label_map_util
 import os
 import tensorflow as tf
 
-CLASS_NAMES = ['0','1','2','3','4','5','6','7','8','9','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
+CLASS_NAMES = ['','1','2','3','4','5','6','7','8','9','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z','0']
 PATH_TO_LABELS = './data/label_map.pbtxt'
 
 def createTFRecord(row, imgPath):
@@ -28,7 +28,6 @@ def createTFRecord(row, imgPath):
              # (1 per box)
     classes_text = [] # List of string class name of bounding box (1 per box)
     classes = [] # List of integer class id of bounding box (1 per box)
-
 
     # We know there are 7 characters in the LP
     filename = row[0].encode('utf-8')
