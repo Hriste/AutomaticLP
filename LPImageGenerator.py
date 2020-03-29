@@ -15,8 +15,9 @@ from datetime import datetime
 import csv
 from operator import itemgetter
 
-OUTPUT_SHAPE = (128*4, 64*4)
-FONT_HEIGHT = 32*4
+OUTPUT_SHAPE = (128, 64)
+FONT_HEIGHT = 32
+FONT_SIZE = 24
 
 #data_dict = {}
 alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
@@ -24,7 +25,7 @@ alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', '
 def makeSequences(numOfPlates, directoryName):
     # Capital letters - restricted to what is valid for Maryland Plates
 
-    font = ImageFont.truetype("md.ttf",24*4)
+    font = ImageFont.truetype("md.ttf",24)
 
     col = 375
     row = 192
