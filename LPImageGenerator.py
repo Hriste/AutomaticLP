@@ -129,13 +129,13 @@ def makeSequences(numOfPlates, directoryName):
 
             # Use this for new tensorflow dataset
             filename = sequence+".png"
-            data = [filename, sequence[0], xloc, yloc, xloc+font.getsize(str(num1))[0], yloc+font.getsize(str(num1))[1],
+            data = [filename, zeroMap(sequence[0]), xloc, yloc, xloc+font.getsize(str(num1))[0], yloc+font.getsize(str(num1))[1],
                     alpha2num(sequence[1]), xloc2, yloc, xloc2+font.getsize(a1)[0], yloc+font.getsize(a1)[1],
                     alpha2num(sequence[2]), xloc3, yloc, xloc3+font.getsize(a2)[0], yloc+font.getsize(a2)[1],
-                    sequence[3], xloc4, yloc, xloc4+font.getsize(str(num2))[0], yloc+font.getsize(str(num2))[1],
-                    sequence[4], xloc5, yloc, xloc5+font.getsize(str(num3))[0], yloc+font.getsize(str(num3))[1],
-                    sequence[5], xloc6, yloc, xloc6+font.getsize(str(num4))[0], yloc+font.getsize(str(num4))[1],
-                    sequence[6], xloc7, yloc, xloc7+font.getsize(str(num5))[0], yloc+font.getsize(str(num5))[1]]
+                    zeroMap(sequence[3]), xloc4, yloc, xloc4+font.getsize(str(num2))[0], yloc+font.getsize(str(num2))[1],
+                    zeroMap(sequence[4]), xloc5, yloc, xloc5+font.getsize(str(num3))[0], yloc+font.getsize(str(num3))[1],
+                    zeroMap(sequence[5]), xloc6, yloc, xloc6+font.getsize(str(num4))[0], yloc+font.getsize(str(num4))[1],
+                    zeroMap(sequence[6]), xloc7, yloc, xloc7+font.getsize(str(num5))[0], yloc+font.getsize(str(num5))[1]]
             for entry in data:
                 data_file.write(str(entry)+",")
             data_file.write("\n")
@@ -143,6 +143,12 @@ def makeSequences(numOfPlates, directoryName):
 def alpha2num(letter):
     # convert a letter class to a number (numbers are 0 - 9, so letters are 10 - 32)
     return alpha.index(letter) + 10;
+
+def zeroMap(number):
+    if number == 0 or number == "0":
+        return 32
+    else:
+        return number
 
 def main():
     while 1:
