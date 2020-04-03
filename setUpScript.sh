@@ -8,10 +8,12 @@ git clone https://github.com/tensorflow/models
 
 conda deactivate
 
-conda create --name LPEnviroment
+cd ../..
+
+conda create -p ./.conda/envs/LPEnvironment 
 conda init bash
 
-conda activate LPEnviroment
+conda activate LPEnvironment
 
 conda install tensorflow-gpu=1.*
 conda install ipykernel
@@ -19,3 +21,4 @@ conda install pillow
 conda install matplotlib
 
 ipython kernel install --user --name=LPKernel
+
