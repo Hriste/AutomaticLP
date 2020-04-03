@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from datetime import datetime
 
-FILENAME = "output.txt"
+FILENAME = 'trainingLog.txt'
 
 def parseOutputFile():
     with open(FILENAME, 'r') as f:
@@ -15,10 +15,11 @@ def parseOutputFile():
 
     for line in lines:
         # If it's not a step info line - skip the processing
-        if "global step" not in line:
+        if "INFO:tensorflow:global step" not in line:
             continue
 
         parts = line.split()
+        print(parts[5])
         steps.append(int(parts[2].replace(":","")))
         loss.append(float(parts[5]))
         secondsPerStep.append(float(parts[6].replace("(", "")))
