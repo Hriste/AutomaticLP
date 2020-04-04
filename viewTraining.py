@@ -36,8 +36,8 @@ def parseOutputFile():
     ax1.set_title("Global Steps v. Loss")
     plt.show()
 
-    fileName =  datetime.now().strftime("Loss_%Y-%m-%d_%H-%M")
-    plt.savefig(fileName)
+    #fileName =  datetime.now().strftime("Loss_%Y-%m-%d_%H-%M")
+    #plt.savefig(fileName)
 
     fig2, ax2 = plt.subplots()
     ax2.plot(steps, secondsPerStep)
