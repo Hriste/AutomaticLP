@@ -19,7 +19,7 @@ def parseOutputFile():
             continue
 
         parts = line.split()
-        print(parts[5])
+        #print(parts[5])
         steps.append(int(parts[2].replace(":","")))
         loss.append(float(parts[5]))
         secondsPerStep.append(float(parts[6].replace("(", "")))
