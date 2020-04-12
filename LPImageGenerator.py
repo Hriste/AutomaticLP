@@ -21,6 +21,7 @@ FONT_SIZE = 24
 
 #data_dict = {}
 alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
+counts = [0]*32
 
 def makeSequences(numOfPlates, directoryName):
     # Capital letters - restricted to what is valid for Maryland Plates
@@ -139,6 +140,21 @@ def makeSequences(numOfPlates, directoryName):
             for entry in data:
                 data_file.write(str(entry)+",")
             data_file.write("\n")
+
+            # increment counts
+            counts[int(sequence[0])] += 1
+            counts[alpha2num(sequence[1])] += 1
+            counts[alpha2num(sequence[2])] += 1
+            counts[int(sequence[3])] += 1
+            counts[int(sequence[4])] += 1
+            counts[int(sequence[5])] += 1
+            counts[int(sequence[6])] += 1
+
+        print("Number of Instance of Each Character:")
+        for j in range(0,10):
+            print(str(j) + " " + str(counts[j]))
+        for k in range(0, 22):
+            print(alpha[k]+" "+str(counts[k+10]))
 
 def alpha2num(letter):
     # convert a letter class to a number (numbers are 0 - 9, so letters are 10 - 32)
