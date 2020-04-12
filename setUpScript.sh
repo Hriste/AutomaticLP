@@ -18,6 +18,9 @@ git clone https://github.com/tensorflow/models
 
 git clone https://github.com/Hriste/tf_object_detection_cm.git
 
+echo "Overwrite current tf_example_parser with modifications."
+cp tf_object_detection_cm/tf_example_parser.py models/research/object_detection/metrics/tf_example_parser.py
+
 conda deactivate
 
 cd ../..
@@ -31,5 +34,8 @@ conda install tensorflow-gpu=1.*
 conda install ipykernel
 conda install pillow
 conda install matplotlib
+conda install -c menpo opencv
+conda install pandas
+conda install scikit-learn
 
 ipython kernel install --user --name=LPKernel
