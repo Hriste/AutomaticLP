@@ -32,7 +32,7 @@ def createTFRecord(row, imgPath):
     # We know there are 7 characters in the LP
     filename = row[0].encode('utf-8')
     # 1st Character
-    classes_text.append(CLASS_NAMES[int(row[1])].encode('utf-8'))
+    '''classes_text.append(CLASS_NAMES[int(row[1])].encode('utf-8'))
     classes.append(int(row[1]))
     xmins.append(float(row[2])/width)
     ymins.append(float(row[3])/height)
@@ -79,8 +79,57 @@ def createTFRecord(row, imgPath):
     xmins.append(float(row[32])/width)
     ymins.append(float(row[33])/height)
     xmaxs.append(float(row[34])/width)
-    ymaxs.append(float(row[35])/height)
+    ymaxs.append(float(row[35])/height)'''
 
+
+    classes_text.append(CLASS_NAMES[int(row[1])].encode('utf-8'))
+    classes.append(int(row[1]))
+    xmins.append(float(row[2]))
+    ymins.append(float(row[3]))
+    xmaxs.append(float(row[4]))
+    ymaxs.append(float(row[5]))
+    # 2nd Character
+    classes_text.append(CLASS_NAMES[int(row[6])].encode('utf-8'))
+    classes.append(int(row[6]))
+    xmins.append(float(row[7]))
+    ymins.append(float(row[8]))
+    xmaxs.append(float(row[9]))
+    ymaxs.append(float(row[10]))
+    # 3rd Character
+    classes_text.append(CLASS_NAMES[int(row[11])].encode('utf-8'))
+    classes.append(int(row[11]))
+    xmins.append(float(row[12]))
+    ymins.append(float(row[13]))
+    xmaxs.append(float(row[14]))
+    ymaxs.append(float(row[15]))
+    # 4th Character
+    classes_text.append(CLASS_NAMES[int(row[16])].encode('utf-8'))
+    classes.append(int(row[16]))
+    xmins.append(float(row[17]))
+    ymins.append(float(row[18]))
+    xmaxs.append(float(row[19]))
+    ymaxs.append(float(row[20]))
+    # 5th Character
+    classes_text.append(CLASS_NAMES[int(row[21])].encode('utf-8'))
+    classes.append(int(row[21]))
+    xmins.append(float(row[22]))
+    ymins.append(float(row[23]))
+    xmaxs.append(float(row[24]))
+    ymaxs.append(float(row[25]))
+    # 6th Character
+    classes_text.append(CLASS_NAMES[int(row[26])].encode('utf-8'))
+    classes.append(int(row[26]))
+    xmins.append(float(row[27]))
+    ymins.append(float(row[28]))
+    xmaxs.append(float(row[29]))
+    ymaxs.append(float(row[30]))
+    # 7th Character
+    classes_text.append(CLASS_NAMES[int(row[31])].encode('utf-8'))
+    classes.append(int(row[31]))
+    xmins.append(float(row[32]))
+    ymins.append(float(row[33]))
+    xmaxs.append(float(row[34]))
+    ymaxs.append(float(row[35]))
 
     img_path = os.path.join(imgPath, row[0])
     with tf.gfile.GFile(img_path, 'rb') as fid:

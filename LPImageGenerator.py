@@ -15,17 +15,20 @@ from datetime import datetime
 import csv
 from operator import itemgetter
 
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
 OUTPUT_SHAPE = (128, 64)
 FONT_HEIGHT = 32
 FONT_SIZE = 24
 
 #data_dict = {}
 alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
-counts = [0]*32
+
 
 def makeSequences(numOfPlates, directoryName):
     # Capital letters - restricted to what is valid for Maryland Plates
-
+    counts = [0]*32
     font = ImageFont.truetype("md.ttf",24)
 
     col = 375
@@ -101,33 +104,6 @@ def makeSequences(numOfPlates, directoryName):
             xloc6 = xloc5 + font.getsize(str(num3))[0]
             xloc7 = xloc6 + font.getsize(str(num4))[0]
 
-            # Use the below for csv output for matlab
-            '''data = [sequence, xloc, yloc, font.getsize(str(num1))[0], font.getsize(str(num1))[1],
-                                    xloc2, yloc, font.getsize(a1)[0], font.getsize(a1)[1],
-                                    xloc3, yloc, font.getsize(a2)[0], font.getsize(a2)[1],
-                                    xloc4, yloc, font.getsize(str(num2))[0], font.getsize(str(num2))[1],
-                                    xloc5, yloc, font.getsize(str(num3))[0], font.getsize(str(num3))[1],
-                                    xloc6, yloc, font.getsize(str(num4))[0], font.getsize(str(num4))[1],
-                                    xloc7, yloc, font.getsize(str(num5))[0], font.getsize(str(num5))[1]]
-            for entry in data:
-                data_file.write(str(entry)+",")
-            data_file.write("\n")'''
-
-            # Use this for the  tensorflow / python approach
-            '''filename = sequence+".png"
-            data = [[filename, sequence[0],xloc, yloc, font.getsize(str(num1))[0], font.getsize(str(num1))[1]],
-                    [filename, alpha2num(sequence[1]),xloc2, yloc, font.getsize(a1)[0], font.getsize(a1)[1]],
-                    [filename, alpha2num(sequence[2]),xloc3, yloc, font.getsize(a2)[0], font.getsize(a2)[1]],
-                    [filename, sequence[3],xloc4, yloc, font.getsize(str(num2))[0], font.getsize(str(num2))[1]],
-                    [filename, sequence[4],xloc5, yloc, font.getsize(str(num3))[0], font.getsize(str(num3))[1]],
-                    [filename, sequence[5],xloc6, yloc, font.getsize(str(num4))[0], font.getsize(str(num4))[1]],
-                    [filename, sequence[6],xloc7, yloc, font.getsize(str(num5))[0], font.getsize(str(num5))[1]]]
-            for entry in data:
-                for thing in entry:
-                    data_file.write(str(thing)+",")
-                data_file.write("\n")'''
-            #data_file.write("\n")
-
             # Use this for new tensorflow dataset
             filename = sequence+".png"
             data = [filename, zeroMap(sequence[0]), xloc, yloc, xloc+font.getsize(str(num1))[0], yloc+font.getsize(str(num1))[1],
@@ -149,6 +125,12 @@ def makeSequences(numOfPlates, directoryName):
             counts[int(sequence[4])] += 1
             counts[int(sequence[5])] += 1
             counts[int(sequence[6])] += 1
+
+            '''fig, ax = plt.subplots(1)
+            ax.imshow(img)
+            rect = patches.Rectangle((xloc, yloc), font.getsize(str(num1))[0], font.getsize(str(num1))[1] )
+            ax.add_patch(rect)
+            plt.show()'''
 
         print("Number of Instance of Each Character:")
         for j in range(0,10):
