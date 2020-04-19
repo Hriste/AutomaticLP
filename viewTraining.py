@@ -39,14 +39,23 @@ def parseOutputFile():
     #fileName =  datetime.now().strftime("Loss_%Y-%m-%d_%H-%M")
     #plt.savefig(fileName)
 
+    #fig2, ax2 = plt.subplots()
+    #ax2.plot(steps, secondsPerStep)
+    #ax2.set_xlabel("Global Step")
+    #ax2.set_ylabel("Seconds Per Step")
+    #ax2.set_title("Seconds Per Step")
+    #plt.show()
+
+
+    splits = 10
+    Output = [sum(loss[i:i + splits])/splits 
+          for i in range(len(loss) - splits + 1)] 
     fig2, ax2 = plt.subplots()
-    ax2.plot(steps, secondsPerStep)
+    ax2.plot(steps, Output)
     ax2.set_xlabel("Global Step")
-    ax2.set_ylabel("Seconds Per Step")
-    ax2.set_title("Seconds Per Step")
+    ax2.set_ylabel("loss")
+    ax2.set_title("Moving Window Average Loss")
     plt.show()
-
-
 
 
 parseOutputFile()
