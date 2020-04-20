@@ -47,11 +47,11 @@ def parseOutputFile():
     #plt.show()
 
 
-    splits = 10
+    splits = 1000
     Output = [sum(loss[i:i + splits])/splits 
           for i in range(len(loss) - splits + 1)] 
     fig2, ax2 = plt.subplots()
-    ax2.plot(steps, Output)
+    ax2.plot(Output)
     ax2.set_xlabel("Global Step")
     ax2.set_ylabel("loss")
     ax2.set_title("Moving Window Average Loss")

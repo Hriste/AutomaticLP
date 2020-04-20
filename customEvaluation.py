@@ -13,7 +13,7 @@ import numpy as np
 import tensorflow as tf
 import sys
 import matplotlib
-matplotlib.use('tkAgg')
+#matplotlib.use('tkAgg')
 from matplotlib import pyplot as plt
 
 sys.path.append("models/research/object_detection")
@@ -63,7 +63,7 @@ for filename in os.listdir(testImageDirectory):
     if 'png' not in filename:
         continue
 
-    matplotlib.use('tkAgg')
+    #matplotlib.use('tkAgg')
     pathToImage = os.path.join(CWD_PATH,testImageDirectory,filename)
     image = cv2.imread(pathToImage)
     image_expanded = np.expand_dims(image, axis=0)
