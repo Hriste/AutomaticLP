@@ -18,9 +18,9 @@ from operator import itemgetter
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-OUTPUT_SHAPE = (128, 64)
-FONT_HEIGHT = 32
-FONT_SIZE = 24
+OUTPUT_SHAPE = (128*4, 64*4)
+FONT_HEIGHT = 32*4
+FONT_SIZE = 24*4
 
 #data_dict = {}
 alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
@@ -29,7 +29,7 @@ alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', '
 def makeSequences(numOfPlates, directoryName):
     # Capital letters - restricted to what is valid for Maryland Plates
     counts = [0]*32
-    font = ImageFont.truetype("md.ttf",24)
+    font = ImageFont.truetype("md.ttf",FONT_SIZE)
 
     col = 375
     row = 192
