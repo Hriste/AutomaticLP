@@ -1,0 +1,14 @@
+Procedure for Getting GPUImplementation operational:
+
+1) Run setUpScript.sh
+
+2) Add the following lines to your ~/.bashrc file, where pwd is the full path to the AutomaticLP/models/research director
+export PYTHONPATH=$PYTHONPATH:`pwd`
+export PYTHONPATH=$PYTHONPATH:pwd/slim
+
+3) Build your conda enviroment with the spec-file (see below)
+conda create --prefix ./LPEnvironment --file spec-file.txt
+
+4) Tie the conda environment to a IPython Kernel to use in Jupyter Lab / Notebook
+  - Activate the conda environment by running: conda activate ./LPEnvironment
+  - run: ipython kernel install --user --name=LPKernel
