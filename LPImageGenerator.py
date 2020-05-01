@@ -126,11 +126,6 @@ def makeSequences(numOfPlates, directoryName):
             counts[int(sequence[5])] += 1
             counts[int(sequence[6])] += 1
 
-            '''fig, ax = plt.subplots(1)
-            ax.imshow(img)
-            rect = patches.Rectangle((xloc, yloc), font.getsize(str(num1))[0], font.getsize(str(num1))[1] )
-            ax.add_patch(rect)
-            plt.show()'''
 
         print("Number of Instance of Each Character:")
         for j in range(0,10):
@@ -161,15 +156,6 @@ def main():
     directoryName = datetime.now().strftime("GeneratedImages_%Y-%m-%d_%H-%M")
     sequences = makeSequences(int(numOfPlates), directoryName);
 
-    # Sort CSV alpheticanly to match order in folder
-
-    #with open(directoryName+"/dataset.csv", mode='r') as f:
-        #data = [line for line in csv.reader(f)]
-
-    #data.sort(key=itemgetter(1))
-
-    #with open(directoryName+"/dataset.csv", mode='w') as f:
-        #csv.writer(f).writerow(data)
 
 if __name__ == '__main__':
     main()
