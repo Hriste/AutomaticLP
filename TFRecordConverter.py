@@ -18,7 +18,7 @@ PATH_TO_LABELS = './data/label_map.pbtxt'
 def createTFRecord(row, imgPath):
     height = 256
     width = 512
-    image_format = 'png'.encode('utf-8')
+    image_format = 'jpeg'.encode('utf-8')
 
     xmins = [] # List of normalized left x coordinates in bounding box (1 per box)
     xmaxs = [] # List of normalized right x coordinates in bounding box

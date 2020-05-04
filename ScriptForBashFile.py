@@ -10,6 +10,8 @@ from numpy import floor
 import csv
 import tensorflow as tf
 
+import augmentor as aug
+
 CLASS_NAMES = ['0','1','2','3','4','5','6','7','8','9','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
 PATH_TO_LABELS = './data/label_map.pbtxt'
 
@@ -29,6 +31,12 @@ print(numTrainImages, " Training Images Generated")
 LPImageGenerator.makeSequences(numTestImages, testDirectoryName)
 print(numTestImages, " Test Images Generated")
 
+'''
+APPLY AUGMENTATIONS
+'''
+augment = input("Do you want to augment (y/n)").lower()
+if 'y' in augment:
+    aug.augment_images(trainDirectoryName)
 
 '''
 CONVERT DATASETS to TF RECORDS

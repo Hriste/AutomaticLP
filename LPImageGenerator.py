@@ -94,7 +94,7 @@ def makeSequences(numOfPlates, directoryName):
             draw.text((xloc, yloc), sequence, (0,0,0), font=font)
 
             #img.save(directoryName+"/"+sequence+".png")
-            img.save(directoryName+"/"+sequence+".png")
+            img.save(directoryName+"/"+sequence+".jpeg", "JPEG")
 
             # Get corners of boxes for each char (x,y,w,h) - x, y are upper left
             xloc2 = xloc + font.getsize(str(num1))[0]
@@ -105,7 +105,7 @@ def makeSequences(numOfPlates, directoryName):
             xloc7 = xloc6 + font.getsize(str(num4))[0]
 
             # Use this for new tensorflow dataset
-            filename = sequence+".png"
+            filename = sequence+".jpeg"
             data = [filename, zeroMap(sequence[0]), xloc, yloc, xloc+font.getsize(str(num1))[0], yloc+font.getsize(str(num1))[1],
                     alpha2num(sequence[1]), xloc2, yloc, xloc2+font.getsize(a1)[0], yloc+font.getsize(a1)[1],
                     alpha2num(sequence[2]), xloc3, yloc, xloc3+font.getsize(a2)[0], yloc+font.getsize(a2)[1],
