@@ -29,4 +29,6 @@ cd ../..
 pip install --user imagecorruptions
 
 # Download and Extract models
-source FromScratch/getModels.sh
+cd FromScratch
+source getModels.sh
+cd ..
