@@ -23,7 +23,7 @@ if [ ! -f "$FILE" ]; then
 fi
 ./bin/protoc object_detection/protos/*.proto --python_out=.
 pip install --user .
-cd ..
+cd ../..
 
 # pip install for augmentation
 pip install --user imagecorruptions
