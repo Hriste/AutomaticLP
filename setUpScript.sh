@@ -25,21 +25,8 @@ fi
 pip install --user .
 cd ..
 
+# pip install for augmentation
+pip install --user imagecorruptions
 
-
-#conda deactivate
-
-#conda create -p ./envs/LPEnvironment
-#conda init bash
-
-#conda activate ./envs/LPEnvironment
-
-#conda install tensorflow-gpu=1.*
-#conda install ipykernel
-#conda install pillow
-#conda install matplotlib
-#conda install -c menpo opencv
-#conda install pandas
-#conda install scikit-learn
-
-#ipython kernel install --user --name=LPKernel
+# Download and Extract models
+source FromScratch/getModels.sh
