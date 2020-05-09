@@ -16,8 +16,9 @@ CLASS_NAMES = ['','1','2','3','4','5','6','7','8','9','A', 'B', 'C', 'D', 'E', '
 PATH_TO_LABELS = './data/label_map.pbtxt'
 
 def createTFRecord(row, imgPath):
-    height = 256
-    width = 512
+    factor = 2
+    height = 64*factor
+    width = 128*factor
     image_format = 'jpeg'.encode('utf-8')
 
     xmins = [] # List of normalized left x coordinates in bounding box (1 per box)

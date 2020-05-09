@@ -18,9 +18,11 @@ from operator import itemgetter
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-OUTPUT_SHAPE = (128*4, 64*4)
-FONT_HEIGHT = 32*4
-FONT_SIZE = 24*4
+FACTOR = 2
+
+OUTPUT_SHAPE = (128*FACTOR, 64*FACTOR)
+FONT_HEIGHT = 32*FACTOR
+FONT_SIZE = 24*FACTOR
 
 #data_dict = {}
 alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
@@ -31,8 +33,8 @@ def makeSequences(numOfPlates, directoryName):
     counts = [0]*32
     font = ImageFont.truetype("md.ttf",FONT_SIZE)
 
-    col = 375
-    row = 192
+    #col = 375
+    #row = 192
 
     # Make a directory for the new images
     try:
