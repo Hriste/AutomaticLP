@@ -1,11 +1,16 @@
 import imgaug as ia
 from imgaug import augmenters as iaa
+from imgaug.augmentables.bbs import BoundingBox, BoundingBoxesOnImage
 import numpy as np
 import csv
 import imageio
+import random
 
 WHITE_LIST_FORMAT = ('png', 'jpg', 'jpeg', 'bmp', 'ppm', 'JPG')
-VALID_AUGMENTERS = ["jpegCompression", "MotionBlur"]
+VALID_AUGMENTERS = ["jpegCompression", "MotionBlur", "Affine"]
+
+HEIGHT = 256
+WIDTH = 512
 
 def select_augmentation():
     print("Valid Augmentation Values are:")
@@ -21,15 +26,63 @@ def select_augmentation():
         kernel = int(input("Enter the motion blur kernel size in pixels (suggestion 15):"))
         # TODO: can add angle(s) for motion blur
         augmentor = iaa.MotionBlur(k=kernel)
+    elif "affine" in choosen.lower():
+        # TODO: there's alot more affine options
+        # I decided to implement it this way could implemet other ways
+        print("/nYou're going to be asked to enter a number of Affine parameters:")
+        angleMin = int(input("Please enter the min roatation angle in degrees (suggestion -15): "))
+        angleMax = int(input("Please enter the max rotation angle in degrees (suggestion 15): "))
+        yMin = float(input("Please enter the min % to scale on the y axis (suggestion 0.5 (50%)): "))
+        yMax = float(input("Please enter the max % to scale on the y axis (suggestion 1.5 (150%)): "))
+        xMin = float(input("Please enter the min % to scale on the x axis (suggestion 0.5 (50%)): "))
+        xMax = float(input("Please enter the max % to scale on the x axis (suggestion 1.5 (150%)): "))
+        augmentor = iaa.Affine(scale={"x":(xMin, xMax), "y":(yMin, yMax)}, rotate=(angleMin, angleMax))
+        #augmentor = iaa.Sequential([iaa.Affine(rotate=(0, angleMax))])
     else:
         augmentor = None
 
-    return augmentor
+    return augmentor, choosen
+
+def updateBoundingBoxes(row, augmentor, image):
+    ia.seed(random.randrange(1,100,1))
+    #image = ia.quokka(size=(WIDTH, HEIGHT))
+    # Bounding box coordinates start at row[2]
+    # and go in the order Xmin, Ymin, Xmax, Ymax
+    # there are 7 bounding boxes per image & a class label between each one
+    bbs = BoundingBoxesOnImage([
+    BoundingBox(x1 = float(row[2]), y1=float(row[3]), x2=float(row[4]), y2=float(row[5])),
+    BoundingBox(x1 = float(row[7]), y1=float(row[8]), x2=float(row[9]), y2=float(row[10])),
+    BoundingBox(x1 = float(row[12]), y1=float(row[13]), x2=float(row[14]), y2=float(row[15])),
+    BoundingBox(x1 = float(row[17]), y1=float(row[18]), x2=float(row[19]), y2=float(row[20])),
+    BoundingBox(x1 = float(row[22]), y1=float(row[23]), x2=float(row[24]), y2=float(row[25])),
+    BoundingBox(x1 = float(row[27]), y1=float(row[28]), x2=float(row[29]), y2=float(row[30])),
+    BoundingBox(x1 = float(row[32]), y1=float(row[33]), x2=float(row[34]), y2=float(row[35]))
+    ], shape = image.shape)
+
+    image_aug, bbs_aug = augmentor(image = image, bounding_boxes=bbs)
+
+    # update new_row with new BB Values
+    offset = 2
+    #modified = bbs_aug.remove_out_of_image().clip_out_of_image()
+    #print(len(bbs.bounding_boxes))
+    for i in range(len(bbs_aug.bounding_boxes)):
+        #print(offset, offset+3)
+        current = bbs_aug.bounding_boxes[i]
+        row[offset] = str(current.x1)
+        row[offset+1] = str(current.y1)
+        row[offset+2] = str(current.x2)
+        row[offset+3] = str(current.y2)
+        offset = offset + 5
+
+    # For debug
+    image_aug = bbs_aug.draw_on_image(image_aug, size=2, color=[0,0,255])
+    #imshow(image_aug)
+    return image_aug, row
 
 def augment_images(path):
     rowsToAdd = []
 
-    augmentor = select_augmentation()
+    augmentor, choosen = select_augmentation()
     if augmentor is None:
         print("No Augmentation Type selected")
         return
@@ -45,10 +98,15 @@ def augment_images(path):
             new_row[0] = new_name
             image = imageio.imread(path + "/" + image_name)
 
-            rowsToAdd.append(new_row)
+            if "affine" in choosen.lower():
+                # some augmentors also need the bounding boxes updated
+                image_aug, modified_row = updateBoundingBoxes(new_row, augmentor, image)
+                rowsToAdd.append(modified_row)
+            else:
+                rowsToAdd.append(new_row)
+                ia.seed(1)
+                image_aug = augmentor(image = image)
 
-            ia.seed(1)
-            image_aug = augmentor(image = image)
             im_name = path + "/" + new_name
             imageio.imwrite(im_name, image_aug[:, :, 0])
 
