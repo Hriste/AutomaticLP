@@ -7,7 +7,7 @@ import imageio
 import random
 
 WHITE_LIST_FORMAT = ('png', 'jpg', 'jpeg', 'bmp', 'ppm', 'JPG')
-VALID_AUGMENTERS = ["jpegCompression", "MotionBlur", "Affine"]
+VALID_AUGMENTERS = ["jpegCompression", "MotionBlur", "Affine", "All"]
 
 HEIGHT = 256
 WIDTH = 512
@@ -38,6 +38,8 @@ def select_augmentation():
         xMax = float(input("Please enter the max % to scale on the x axis (suggestion 1.5 (150%)): "))
         augmentor = iaa.Affine(scale={"x":(xMin, xMax), "y":(yMin, yMax)}, rotate=(angleMin, angleMax))
         #augmentor = iaa.Sequential([iaa.Affine(rotate=(0, angleMax))])
+    elif "all" in choosen.lower():
+        augmentor = None
     else:
         augmentor = None
 
@@ -75,18 +77,12 @@ def updateBoundingBoxes(row, augmentor, image):
         offset = offset + 5
 
     # For debug
-    image_aug = bbs_aug.draw_on_image(image_aug, size=2, color=[0,0,255])
+    #image_aug = bbs_aug.draw_on_image(image_aug, size=2, color=[0,0,255])
     #imshow(image_aug)
     return image_aug, row
 
-def augment_images(path):
+def useAllAugmentations(path):
     rowsToAdd = []
-
-    augmentor, choosen = select_augmentation()
-    if augmentor is None:
-        print("No Augmentation Type selected")
-        return
-
     with open(path + "/dataset.csv") as csvfile:
         csvreader = csv.reader(csvfile)
         next(csvreader)
@@ -94,27 +90,88 @@ def augment_images(path):
             new_row = row
             image_name = row[0]
             new_name = image_name.split(".")
-            new_name = new_name[0] + "_aug.jpg"
-            new_row[0] = new_name
+
+            # Apply JPEG Compression
+            jpeg_augmentor = iaa.imgcorruptlike.JpegCompression(severity=random.randrange(1,5))
+            jpeg_name = new_name[0] + "_jpegCompression.jpg"
+            new_row[0] = jpeg_name
             image = imageio.imread(path + "/" + image_name)
-
-            if "affine" in choosen.lower():
-                # some augmentors also need the bounding boxes updated
-                image_aug, modified_row = updateBoundingBoxes(new_row, augmentor, image)
-                rowsToAdd.append(modified_row)
-            else:
-                rowsToAdd.append(new_row)
-                ia.seed(1)
-                image_aug = augmentor(image = image)
-
-            im_name = path + "/" + new_name
+            ia.seed(1)
+            image_aug = jpeg_augmentor(image = image)
+            rowsToAdd.append(new_row)
+            im_name = path + "/" + jpeg_name
             imageio.imwrite(im_name, image_aug[:, :, 0])
 
-    # ok now append to the csv so they get written to the tf records file
-    with open(path + "/dataset.csv", 'a') as fd:
-        for row in rowsToAdd:
-            stringToWrite = ""
-            for entry in row:
-                stringToWrite = stringToWrite + entry + ","
-            fd.write(stringToWrite)
-            fd.write("\n")
+            # Motion blur
+            mb_augmentaor = iaa.MotionBlur(k=random.randrange(4,25))
+            mb_name = new_name[0] + "_motionBlur.jpeg"
+            new_row = row
+            new_row[0] = mb_name
+            image = imageio.imread(path + "/" + image_name)
+            ia.seed(1)
+            image_aug = mb_augmentaor(image = image)
+            rowsToAdd.append(new_row)
+            im_name = path + "/" + mb_name
+            imageio.imwrite(im_name, image_aug[:, :, 0])
+
+            # Affine
+            affine_augmentor = iaa.Affine(scale={"x":(0.5, 1.5), "y":(0.5, 1.5)}, rotate=(-5, 5))
+            affine_name = new_name[0] + "_affine.jpeg"
+            new_row = row
+            new_row[0] = affine_name
+            image = imageio.imread(path + "/" + image_name)
+            image_aug, modified_row = updateBoundingBoxes(new_row, affine_augmentor, image)
+            rowsToAdd.append(modified_row)
+            im_name = path + "/" + affine_name
+            imageio.imwrite(im_name, image_aug[:, :, 0])
+
+        with open(path + "/dataset.csv", 'a') as fd:
+            for row in rowsToAdd:
+                stringToWrite = ""
+                for entry in row:
+                    stringToWrite = stringToWrite + entry + ","
+                fd.write(stringToWrite)
+                fd.write("\n")
+
+def augment_images(path):
+    rowsToAdd = []
+
+    augmentor, choosen = select_augmentation()
+    print(choosen)
+    if (augmentor is None) and ("all" not in choosen.lower()):
+        print("No Augmentation Type selected")
+        return
+    if "all" not in choosen.lower():
+        with open(path + "/dataset.csv") as csvfile:
+            csvreader = csv.reader(csvfile)
+            next(csvreader)
+            for row in csvreader:
+                new_row = row
+                image_name = row[0]
+                new_name = image_name.split(".")
+                new_name = new_name[0] + "_aug.jpg"
+                new_row[0] = new_name
+                image = imageio.imread(path + "/" + image_name)
+
+                if "affine" in choosen.lower():
+                    # some augmentors also need the bounding boxes updated
+                    image_aug, modified_row = updateBoundingBoxes(new_row, augmentor, image)
+                    rowsToAdd.append(modified_row)
+                else:
+                    rowsToAdd.append(new_row)
+                    ia.seed(1)
+                    image_aug = augmentor(image = image)
+
+                im_name = path + "/" + new_name
+                imageio.imwrite(im_name, image_aug[:, :, 0])
+
+        # ok now append to the csv so they get written to the tf records file
+        with open(path + "/dataset.csv", 'a') as fd:
+            for row in rowsToAdd:
+                stringToWrite = ""
+                for entry in row:
+                    stringToWrite = stringToWrite + entry + ","
+                fd.write(stringToWrite)
+                fd.write("\n")
+    else:
+        useAllAugmentations(path)
