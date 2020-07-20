@@ -26,7 +26,7 @@ def select_augmentation():
         kernel = int(input("Enter the motion blur kernel size in pixels (suggestion 15):"))
         # TODO: can add angle(s) for motion blur
         augmentor = iaa.MotionBlur(k=kernel)
-    elif "GaussianNoise" in choosen.lower():
+    elif "gaussian" in choosen.lower():
         level = int(input("Please enter a severity level between 1-5, or random:"))
         augmentor = iaa.imgcorruptlike.GaussianNoise(severity=level)
     elif "affine" in choosen.lower():
@@ -42,8 +42,10 @@ def select_augmentation():
         augmentor = iaa.Affine(scale={"x":(xMin, xMax), "y":(yMin, yMax)}, rotate=(angleMin, angleMax))
         #augmentor = iaa.Sequential([iaa.Affine(rotate=(0, angleMax))])
     elif "all" in choosen.lower():
+        print("other here")
         augmentor = None
     else:
+        print("here")
         augmentor = None
 
     return augmentor, choosen

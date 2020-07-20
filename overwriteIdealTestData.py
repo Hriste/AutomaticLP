@@ -20,7 +20,7 @@ images with non-ideal versions via applying "augmentation"
 HEIGHT = 256
 WIDTH = 512
 
-augmentor, choosen = augmentor.select_augmentation()
+thing, choosen = augmentor.select_augmentation()
 
 # Handle the ALL case - not supporting here for now
 if "all" in choosen.lower():
@@ -42,7 +42,7 @@ with open(path + "/dataset.csv") as csvfile:
             rowsToAdd.append(modified_row)
         else:
             ia.seed(1)
-            image_aug = augmentor(image = image)
+            image_aug = thing(image = image)
 
         # This is the overwite
         im_name = path + "/" + image_name
