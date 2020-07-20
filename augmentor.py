@@ -7,7 +7,7 @@ import imageio
 import random
 
 WHITE_LIST_FORMAT = ('png', 'jpg', 'jpeg', 'bmp', 'ppm', 'JPG')
-VALID_AUGMENTERS = ["jpegCompression", "MotionBlur", "Affine", "All"]
+VALID_AUGMENTERS = ["jpegCompression", "MotionBlur", "Affine", "All", "Gaussian"]
 
 HEIGHT = 256
 WIDTH = 512
@@ -20,12 +20,15 @@ def select_augmentation():
     choosen = input("Please select what augmenation you would like to perform:")
 
     if "jpegcompression" in choosen.lower():
-        level = int(input("Please enter a severity level between 1-5:"))
+        level = int(input("Please enter a severity level between 1-5, or random:"))
         augmentor = iaa.imgcorruptlike.JpegCompression(severity=level)
     elif "motionblur" in choosen.lower():
         kernel = int(input("Enter the motion blur kernel size in pixels (suggestion 15):"))
         # TODO: can add angle(s) for motion blur
         augmentor = iaa.MotionBlur(k=kernel)
+    elif "GaussianNoise" in choosen.lower():
+        level = int(input("Please enter a severity level between 1-5, or random:"))
+        augmentor = iaa.imgcorruptlike.GaussianNoise(severity=level)
     elif "affine" in choosen.lower():
         # TODO: there's alot more affine options
         # I decided to implement it this way could implemet other ways
@@ -100,6 +103,17 @@ def useAllAugmentations(path):
             image_aug = jpeg_augmentor(image = image)
             rowsToAdd.append(new_row)
             im_name = path + "/" + jpeg_name
+            imageio.imwrite(im_name, image_aug[:, :, 0])
+
+            # Apply GaussianNoise
+            gaussian_augmentor = iaa.imgcorruptlike.GaussianNoise(severity=random.randrange(1,5))
+            gaussian_name = new_name[0] + "_gaussian.jpg"
+            new_row[0] = gaussian_name
+            image = imageio.imread(path + "/" + image_name)
+            ia.seed(1)
+            image_aug = gaussian_augmentor(image = image)
+            rowsToAdd.append(new_row)
+            im_name = path + "/" + gaussian_name
             imageio.imwrite(im_name, image_aug[:, :, 0])
 
             # Motion blur
